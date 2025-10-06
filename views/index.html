@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toko Online - Beranda</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        /* Reset dan Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header dan Navigation */
+        .navbar {
+            background-color: #1a365d;
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo h2 {
+            color: #ffffff;
+            font-size: 1.8rem;
+        }
+
+        .nav-logo span {
+            color: #63b3ed;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #63b3ed;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #1a365d 0%, #2d3748 100%);
+            color: white;
+            padding: 5rem 0;
+            text-align: center;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            background-color: #63b3ed;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: #4299e1;
+        }
+
+        /* Products Section */
+        .products-section {
+            padding: 4rem 0;
+            background-color: #f7fafc;
+            flex: 1;
+        }
+
+        .products-section h2 {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #2d3748;
+            font-size: 2.5rem;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background-color: #e2e8f0;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #718096;
+            font-weight: bold;
+        }
+
+        .product-info h3 {
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-description {
+            color: #718096;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .product-price {
+            color: #2b6cb0;
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .product-stock {
+            color: #718096;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .btn-primary {
+            background-color: #4299e1;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            background-color: #3182ce;
+        }
+
+        .no-products {
+            text-align: center;
+            color: #718096;
+            font-size: 1.1rem;
+            grid-column: 1 / -1;
+            padding: 2rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #1a365d;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: auto;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-menu {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <h2>Toko<span>Online</span></h2>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="/" class="nav-link">Beranda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#produk" class="nav-link">Produk</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin" class="nav-link">Admin</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/checkout" class="nav-link">Checkout</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Selamat Datang di Toko Online Kami</h1>
+                <p>Temukan produk terbaik dengan harga terjangkau</p>
+                <button class="cta-button" onclick="scrollToProducts()">Lihat Produk</button>
+            </div>
+        </section>
+
+        <section id="produk" class="products-section">
+            <div class="container">
+                <h2>Produk Kami</h2>
+                <div class="products-grid" id="productsGrid">
+                    <!-- Produk akan dimuat di sini oleh JavaScript -->
+                    <div class="product-card">
+                        <div class="product-image">Gambar Laptop Gaming</div>
+                        <div class="product-info">
+                            <h3>Laptop Gaming RTX 4060</h3>
+                            <p class="product-description">Laptop gaming dengan processor Intel i7 dan GPU RTX 4060</p>
+                            <p class="product-price">Rp 15.999.000</p>
+                            <p class="product-stock">Stok: 12</p>
+                            <button class="btn-primary" onclick="addToCart('1')">Tambah ke Keranjang</button>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="product-image">Gambar Smartphone</div>
+                        <div class="product-info">
+                            <h3>Smartphone Flagship 2024</h3>
+                            <p class="product-description">Smartphone dengan kamera 200MP dan baterai 5000mAh</p>
+                            <p class="product-price">Rp 8.499.000</p>
+                            <p class="product-stock">Stok: 25</p>
+                            <button class="btn-primary" onclick="addToCart('2')">Tambah ke Keranjang</button>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="product-image">Gambar Headphone</div>
+                        <div class="product-info">
+                            <h3>Headphone Wireless Premium</h3>
+                            <p class="product-description">Headphone dengan noise cancellation dan battery life 30 jam</p>
+                            <p class="product-price">Rp 2.999.000</p>
+                            <p class="product-stock">Stok: 18</p>
+                            <button class="btn-primary" onclick="addToCart('3')">Tambah ke Keranjang</button>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="product-image">Gambar Smart Watch</div>
+                        <div class="product-info">
+                            <h3>Smart Watch Pro</h3>
+                            <p class="product-description">Smartwatch dengan EKG, GPS, dan water resistance</p>
+                            <p class="product-price">Rp 3.499.000</p>
+                            <p class="product-stock">Stok: 30</p>
+                            <button class="btn-primary" onclick="addToCart('4')">Tambah ke Keranjang</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Toko Online. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Fungsi untuk scroll ke bagian produk
+        function scrollToProducts() {
+            document.getElementById('produk').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        // Fungsi untuk menambahkan produk ke keranjang
+        function addToCart(productId) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const existingItem = cart.find(item => item.productId === productId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    productId: productId,
+                    quantity: 1
+                });
+            }
+            
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert('Produk berhasil ditambahkan ke keranjang!');
+        }
+
+        // Fungsi untuk memuat produk dari API (simulasi)
+        async function loadProducts() {
+            try {
+                // Simulasi loading data dari API
+                console.log('Memuat produk...');
+            } catch (error) {
+                console.error('Error loading products:', error);
+            }
+        }
+
+        // Event listener untuk memuat produk saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProducts();
+        });
+    </script>
+</body>
+</html>

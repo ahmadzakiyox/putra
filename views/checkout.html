@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toko Online - Checkout</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <h2>Toko<span>Online</span></h2>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="/" class="nav-link">Beranda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin" class="nav-link">Admin</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="checkout-main">
+        <div class="container">
+            <h1>Checkout</h1>
+            
+            <div class="checkout-container">
+                <div class="checkout-form">
+                    <h2>Informasi Pengiriman</h2>
+                    <form id="checkoutForm">
+                        <div class="form-group">
+                            <label for="customerName">Nama Lengkap</label>
+                            <input type="text" id="customerName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customerEmail">Email</label>
+                            <input type="email" id="customerEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customerPhone">No. Telepon</label>
+                            <input type="tel" id="customerPhone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customerAddress">Alamat Lengkap</label>
+                            <textarea id="customerAddress" required></textarea>
+                        </div>
+                        
+                        <h2>Metode Pembayaran</h2>
+                        <div class="payment-methods">
+                            <div class="payment-method">
+                                <input type="radio" id="bankTransfer" name="paymentMethod" value="bank_transfer" checked>
+                                <label for="bankTransfer">Transfer Bank</label>
+                            </div>
+                            <div class="payment-method">
+                                <input type="radio" id="creditCard" name="paymentMethod" value="credit_card">
+                                <label for="creditCard">Kartu Kredit</label>
+                            </div>
+                            <div class="payment-method">
+                                <input type="radio" id="eWallet" name="paymentMethod" value="e_wallet">
+                                <label for="eWallet">E-Wallet</label>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary checkout-btn">Lanjutkan Pembayaran</button>
+                    </form>
+                </div>
+                
+                <div class="order-summary">
+                    <h2>Ringkasan Pesanan</h2>
+                    <div id="orderItems">
+                        <!-- Item pesanan akan dimuat di sini -->
+                    </div>
+                    <div class="order-total">
+                        <p>Total: <span id="orderTotal">Rp 0</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Toko Online. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="/js/checkout.js"></script>
+</body>
+</html>

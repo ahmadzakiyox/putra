@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Status Pembayaran</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container" style="text-align: center; padding-top: 50px;">
+        <h1 id="status-title"></h1>
+        <p id="status-message"></p>
+        <a href="/" class="button">Kembali ke Beranda</a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const status = params.get('status');
+            const transactionId = params.get('transaction_id');
+            const titleEl = document.getElementById('status-title');
+            const messageEl = document.getElementById('status-message');
+
+            if (status === 'success') {
+                titleEl.textContent = 'Pembayaran Berhasil!';
+                messageEl.textContent = `Terima kasih atas pesanan Anda. ID Transaksi Anda adalah: ${transactionId}.`;
+                localStorage.removeItem('cart'); // Kosongkan keranjang setelah berhasil
+            } else {
+                titleEl.textContent = 'Pembayaran Gagal';
+                messageEl.textContent = 'Terjadi masalah dengan pembayaran Anda. Silakan coba lagi.';
+            }
+        });
+    </script>
+</body>
+</html>

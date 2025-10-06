@@ -4,7 +4,260 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Toko Online - Checkout</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        /* Reset dan Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header dan Navigation */
+        .navbar {
+            background-color: #1a365d;
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo h2 {
+            color: #ffffff;
+            font-size: 1.8rem;
+        }
+
+        .nav-logo span {
+            color: #63b3ed;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #63b3ed;
+        }
+
+        /* Checkout Styles */
+        .checkout-main {
+            padding: 2rem 0;
+            min-height: calc(100vh - 200px);
+            flex: 1;
+        }
+
+        .checkout-main h1 {
+            text-align: center;
+            color: #2d3748;
+            margin-bottom: 2rem;
+        }
+
+        .checkout-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .checkout-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .checkout-form h2 {
+            color: #2d3748;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #4a5568;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #4299e1;
+        }
+
+        .payment-methods {
+            margin: 1.5rem 0;
+        }
+
+        .payment-method {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+        }
+
+        .payment-method:hover {
+            border-color: #4299e1;
+        }
+
+        .payment-method input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .btn-primary {
+            background-color: #4299e1;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            font-size: 1.1rem;
+        }
+
+        .btn-primary:hover {
+            background-color: #3182ce;
+        }
+
+        .checkout-btn {
+            margin-top: 1rem;
+        }
+
+        .order-summary {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+            position: sticky;
+            top: 2rem;
+        }
+
+        .order-summary h2 {
+            color: #2d3748;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .item-info h4 {
+            color: #2d3748;
+            margin-bottom: 0.25rem;
+        }
+
+        .item-info p {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+
+        .item-total {
+            color: #2d3748;
+            font-weight: 500;
+        }
+
+        .order-total {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid #e2e8f0;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2d3748;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .no-items {
+            text-align: center;
+            color: #718096;
+            padding: 2rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #1a365d;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: auto;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-menu {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .checkout-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -35,19 +288,19 @@
                     <form id="checkoutForm">
                         <div class="form-group">
                             <label for="customerName">Nama Lengkap</label>
-                            <input type="text" id="customerName" required>
+                            <input type="text" id="customerName" required value="Budi Santoso">
                         </div>
                         <div class="form-group">
                             <label for="customerEmail">Email</label>
-                            <input type="email" id="customerEmail" required>
+                            <input type="email" id="customerEmail" required value="budi.santoso@gmail.com">
                         </div>
                         <div class="form-group">
                             <label for="customerPhone">No. Telepon</label>
-                            <input type="tel" id="customerPhone" required>
+                            <input type="tel" id="customerPhone" required value="081234567890">
                         </div>
                         <div class="form-group">
                             <label for="customerAddress">Alamat Lengkap</label>
-                            <textarea id="customerAddress" required></textarea>
+                            <textarea id="customerAddress" required>Jl. Merdeka No. 123, Jakarta Pusat, 10110</textarea>
                         </div>
                         
                         <h2>Metode Pembayaran</h2>
@@ -73,10 +326,28 @@
                 <div class="order-summary">
                     <h2>Ringkasan Pesanan</h2>
                     <div id="orderItems">
-                        <!-- Item pesanan akan dimuat di sini -->
+                        <div class="order-item">
+                            <div class="item-info">
+                                <h4>Smartphone Flagship 2024</h4>
+                                <p>1 x Rp 8.499.000</p>
+                            </div>
+                            <div class="item-total">
+                                Rp 8.499.000
+                            </div>
+                        </div>
+                        <div class="order-item">
+                            <div class="item-info">
+                                <h4>Headphone Wireless Premium</h4>
+                                <p>1 x Rp 2.999.000</p>
+                            </div>
+                            <div class="item-total">
+                                Rp 2.999.000
+                            </div>
+                        </div>
                     </div>
                     <div class="order-total">
-                        <p>Total: <span id="orderTotal">Rp 0</span></p>
+                        <span>Total:</span>
+                        <span id="orderTotal">Rp 11.498.000</span>
                     </div>
                 </div>
             </div>
@@ -89,6 +360,93 @@
         </div>
     </footer>
 
-    <script src="/js/checkout.js"></script>
+    <script>
+        // Event listener untuk memuat data checkout
+        document.addEventListener('DOMContentLoaded', function() {
+            setupCheckoutForm();
+        });
+
+        // Fungsi untuk setup form checkout
+        function setupCheckoutForm() {
+            const form = document.getElementById('checkoutForm');
+            
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                // Validasi form
+                if (!validateForm()) {
+                    return;
+                }
+                
+                // Tampilkan loading state
+                const submitBtn = form.querySelector('.checkout-btn');
+                const originalText = submitBtn.textContent;
+                submitBtn.textContent = 'Memproses...';
+                submitBtn.disabled = true;
+                
+                try {
+                    // Simulasikan proses pembayaran
+                    await simulatePayment();
+                    
+                    // Redirect ke halaman callback dengan status sukses
+                    window.location.href = '/callback?status=success';
+                } catch (error) {
+                    console.error('Payment error:', error);
+                    // Redirect ke halaman callback dengan status gagal
+                    window.location.href = '/callback?status=failed';
+                } finally {
+                    // Reset button state
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                }
+            });
+        }
+
+        // Fungsi untuk validasi form
+        function validateForm() {
+            const name = document.getElementById('customerName').value;
+            const email = document.getElementById('customerEmail').value;
+            const phone = document.getElementById('customerPhone').value;
+            const address = document.getElementById('customerAddress').value;
+            
+            if (!name || !email || !phone || !address) {
+                alert('Harap lengkapi semua field yang diperlukan');
+                return false;
+            }
+            
+            // Validasi email sederhana
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('Format email tidak valid');
+                return false;
+            }
+            
+            // Validasi nomor telepon (minimal 10 digit)
+            const phoneRegex = /^[0-9]{10,}$/;
+            if (!phoneRegex.test(phone.replace(/\D/g, ''))) {
+                alert('Format nomor telepon tidak valid');
+                return false;
+            }
+            
+            return true;
+        }
+
+        // Fungsi untuk mensimulasikan proses pembayaran
+        function simulatePayment() {
+            return new Promise((resolve, reject) => {
+                // Simulasi delay proses pembayaran
+                setTimeout(() => {
+                    // 80% kemungkinan sukses, 20% gagal (untuk demo)
+                    const isSuccess = Math.random() < 0.8;
+                    
+                    if (isSuccess) {
+                        resolve();
+                    } else {
+                        reject(new Error('Payment failed'));
+                    }
+                }, 2000);
+            });
+        }
+    </script>
 </body>
 </html>

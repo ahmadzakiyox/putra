@@ -57,9 +57,9 @@ const upload = multer({
 });
 
 // Model Database
-const Product = require('./models/Product');
-const Order = require('./models/Order');
-const User = require('./models/User');
+const Product = require('./models/product');
+const Order = require('./models/order');
+const User = require('./models/user');
 
 // Routes untuk halaman
 app.get('/', (req, res) => {

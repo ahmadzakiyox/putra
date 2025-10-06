@@ -4,7 +4,384 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Toko Online - Admin Panel</title>
-    <link rel="stylesheet" href="/css/admin.css">
+    <style>
+        /* Admin Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f7fafc;
+            color: #333;
+        }
+
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: #1a365d;
+            color: white;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #2d3748;
+        }
+
+        .sidebar-header h2 {
+            color: #63b3ed;
+        }
+
+        .sidebar-nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar-nav li {
+            border-bottom: 1px solid #2d3748;
+        }
+
+        .sidebar-nav a {
+            display: block;
+            padding: 1rem 1.5rem;
+            color: #cbd5e0;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-nav a:hover,
+        .sidebar-nav a.active {
+            background-color: #2d3748;
+            color: #63b3ed;
+            border-left: 4px solid #63b3ed;
+        }
+
+        /* Main Content */
+        .admin-main {
+            flex: 1;
+            margin-left: 250px;
+            min-height: 100vh;
+        }
+
+        .admin-header {
+            background: white;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .admin-header h1 {
+            color: #2d3748;
+            margin: 0;
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .admin-content {
+            padding: 2rem;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border-left: 4px solid #4299e1;
+        }
+
+        .stat-card h3 {
+            color: #718096;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-card p {
+            color: #2d3748;
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        /* Section Header */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-header h2 {
+            color: #2d3748;
+            margin: 0;
+        }
+
+        .btn-primary {
+            background-color: #4299e1;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #3182ce;
+        }
+
+        .btn-secondary {
+            background-color: #e2e8f0;
+            color: #4a5568;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background-color: #cbd5e0;
+        }
+
+        /* Tables */
+        .table-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background-color: #1a365d;
+        }
+
+        th {
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 500;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            color: #4a5568;
+        }
+
+        tbody tr:hover {
+            background-color: #f7fafc;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-edit {
+            background-color: #ed8936;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .btn-delete {
+            background-color: #f56565;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .btn-edit:hover {
+            background-color: #dd6b20;
+        }
+
+        .btn-delete:hover {
+            background-color: #e53e3e;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .close {
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #718096;
+        }
+
+        .close:hover {
+            color: #2d3748;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #4a5568;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #4299e1;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+        }
+
+        /* Status Badges */
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .status-pending {
+            background-color: #fed7d7;
+            color: #c53030;
+        }
+
+        .status-processing {
+            background-color: #feebc8;
+            color: #dd6b20;
+        }
+
+        .status-shipped {
+            background-color: #c6f6d5;
+            color: #276749;
+        }
+
+        .status-delivered {
+            background-color: #bee3f8;
+            color: #2c5aa0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            
+            .admin-main {
+                margin-left: 0;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+            
+            .table-container {
+                overflow-x: auto;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="admin-container">
@@ -36,20 +413,56 @@
                     <div class="stats-grid">
                         <div class="stat-card">
                             <h3>Total Produk</h3>
-                            <p id="totalProducts">0</p>
+                            <p id="totalProducts">45</p>
                         </div>
                         <div class="stat-card">
                             <h3>Total Pesanan</h3>
-                            <p id="totalOrders">0</p>
+                            <p id="totalOrders">128</p>
                         </div>
                         <div class="stat-card">
                             <h3>Total Pengguna</h3>
-                            <p id="totalUsers">0</p>
+                            <p id="totalUsers">89</p>
                         </div>
                         <div class="stat-card">
                             <h3>Pendapatan</h3>
-                            <p id="totalRevenue">Rp 0</p>
+                            <p id="totalRevenue">Rp 156.750.000</p>
                         </div>
+                    </div>
+                    
+                    <div class="section-header">
+                        <h2>Aktivitas Terbaru</h2>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Waktu</th>
+                                    <th>Aktivitas</th>
+                                    <th>Pengguna</th>
+                                    <th>Detail</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>10:30 AM</td>
+                                    <td>Pesanan Baru</td>
+                                    <td>customer123</td>
+                                    <td>Order #ORD-0012</td>
+                                </tr>
+                                <tr>
+                                    <td>09:15 AM</td>
+                                    <td>Produk Ditambahkan</td>
+                                    <td>admin</td>
+                                    <td>Laptop Gaming RTX 4070</td>
+                                </tr>
+                                <tr>
+                                    <td>Yesterday</td>
+                                    <td>Pembayaran Dikonfirmasi</td>
+                                    <td>customer456</td>
+                                    <td>Order #ORD-0011</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
@@ -71,7 +484,36 @@
                                 </tr>
                             </thead>
                             <tbody id="productsTableBody">
-                                <!-- Data produk akan dimuat di sini -->
+                                <tr>
+                                    <td>Laptop Gaming RTX 4060</td>
+                                    <td>Rp 15.999.000</td>
+                                    <td>12</td>
+                                    <td>Elektronik</td>
+                                    <td class="action-buttons">
+                                        <button class="btn-edit" onclick="editProduct('1')">Edit</button>
+                                        <button class="btn-delete" onclick="deleteProduct('1')">Hapus</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Smartphone Flagship 2024</td>
+                                    <td>Rp 8.499.000</td>
+                                    <td>25</td>
+                                    <td>Elektronik</td>
+                                    <td class="action-buttons">
+                                        <button class="btn-edit" onclick="editProduct('2')">Edit</button>
+                                        <button class="btn-delete" onclick="deleteProduct('2')">Hapus</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Headphone Wireless Premium</td>
+                                    <td>Rp 2.999.000</td>
+                                    <td>18</td>
+                                    <td>Aksesoris</td>
+                                    <td class="action-buttons">
+                                        <button class="btn-edit" onclick="editProduct('3')">Edit</button>
+                                        <button class="btn-delete" onclick="deleteProduct('3')">Hapus</button>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -95,7 +537,57 @@
                                 </tr>
                             </thead>
                             <tbody id="ordersTableBody">
-                                <!-- Data pesanan akan dimuat di sini -->
+                                <tr>
+                                    <td>ORD-0012</td>
+                                    <td>Budi Santoso</td>
+                                    <td>Rp 8.499.000</td>
+                                    <td>
+                                        <select onchange="updateOrderStatus('1', this.value)" class="status-badge status-pending">
+                                            <option value="pending" selected>Pending</option>
+                                            <option value="processing">Processing</option>
+                                            <option value="shipped">Shipped</option>
+                                            <option value="delivered">Delivered</option>
+                                        </select>
+                                    </td>
+                                    <td>15 Mar 2024</td>
+                                    <td class="action-buttons">
+                                        <button class="btn-edit" onclick="viewOrderDetails('1')">Detail</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>ORD-0011</td>
+                                    <td>Sari Indah</td>
+                                    <td>Rp 15.999.000</td>
+                                    <td>
+                                        <select onchange="updateOrderStatus('2', this.value)" class="status-badge status-processing">
+                                            <option value="pending">Pending</option>
+                                            <option value="processing" selected>Processing</option>
+                                            <option value="shipped">Shipped</option>
+                                            <option value="delivered">Delivered</option>
+                                        </select>
+                                    </td>
+                                    <td>14 Mar 2024</td>
+                                    <td class="action-buttons">
+                                        <button class="btn-edit" onclick="viewOrderDetails('2')">Detail</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>ORD-0010</td>
+                                    <td>Rizki Pratama</td>
+                                    <td>Rp 2.999.000</td>
+                                    <td>
+                                        <select onchange="updateOrderStatus('3', this.value)" class="status-badge status-delivered">
+                                            <option value="pending">Pending</option>
+                                            <option value="processing">Processing</option>
+                                            <option value="shipped">Shipped</option>
+                                            <option value="delivered" selected>Delivered</option>
+                                        </select>
+                                    </td>
+                                    <td>12 Mar 2024</td>
+                                    <td class="action-buttons">
+                                        <button class="btn-edit" onclick="viewOrderDetails('3')">Detail</button>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -118,7 +610,48 @@
                                 </tr>
                             </thead>
                             <tbody id="usersTableBody">
-                                <!-- Data pengguna akan dimuat di sini -->
+                                <tr>
+                                    <td>admin</td>
+                                    <td>admin@tokoonline.com</td>
+                                    <td>
+                                        <select onchange="updateUserRole('1', this.value)">
+                                            <option value="customer">Customer</option>
+                                            <option value="admin" selected>Admin</option>
+                                        </select>
+                                    </td>
+                                    <td>01 Jan 2024</td>
+                                    <td class="action-buttons">
+                                        <button class="btn-edit" onclick="editUser('1')">Edit</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>budisantoso</td>
+                                    <td>budi.santoso@gmail.com</td>
+                                    <td>
+                                        <select onchange="updateUserRole('2', this.value)">
+                                            <option value="customer" selected>Customer</option>
+                                            <option value="admin">Admin</option>
+                                        </select>
+                                    </td>
+                                    <td>15 Feb 2024</td>
+                                    <td class="action-buttons">
+                                        <button class="btn-edit" onclick="editUser('2')">Edit</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>sariindah</td>
+                                    <td>sari.indah@yahoo.com</td>
+                                    <td>
+                                        <select onchange="updateUserRole('3', this.value)">
+                                            <option value="customer" selected>Customer</option>
+                                            <option value="admin">Admin</option>
+                                        </select>
+                                    </td>
+                                    <td>20 Feb 2024</td>
+                                    <td class="action-buttons">
+                                        <button class="btn-edit" onclick="editUser('3')">Edit</button>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -162,6 +695,193 @@
         </div>
     </div>
 
-    <script src="/js/admin.js"></script>
+    <script>
+        // Variabel global
+        let currentEditingId = null;
+
+        // Event listener untuk tab navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Setup tab navigation
+            setupTabNavigation();
+            
+            // Setup modal
+            setupModal();
+            
+            // Setup form submission
+            setupFormSubmission();
+            
+            // Setup logout button
+            document.getElementById('logoutBtn').addEventListener('click', function() {
+                if (confirm('Apakah Anda yakin ingin logout?')) {
+                    window.location.href = '/';
+                }
+            });
+        });
+
+        // Fungsi untuk setup tab navigation
+        function setupTabNavigation() {
+            const navLinks = document.querySelectorAll('.sidebar-nav a');
+            const tabContents = document.querySelectorAll('.tab-content');
+            const adminTitle = document.getElementById('adminTitle');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all links and contents
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Add active class to clicked link
+                    this.classList.add('active');
+                    
+                    // Show corresponding content
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                    
+                    // Update admin title
+                    adminTitle.textContent = this.textContent;
+                });
+            });
+        }
+
+        // Fungsi untuk setup modal
+        function setupModal() {
+            const modal = document.getElementById('productModal');
+            const closeBtn = document.querySelector('.close');
+            const cancelBtn = document.getElementById('cancelBtn');
+            const addProductBtn = document.getElementById('addProductBtn');
+            
+            // Open modal for adding product
+            addProductBtn.addEventListener('click', () => {
+                currentEditingId = null;
+                document.getElementById('modalTitle').textContent = 'Tambah Produk';
+                document.getElementById('productForm').reset();
+                modal.style.display = 'block';
+            });
+            
+            // Close modal
+            closeBtn.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+            
+            cancelBtn.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
+
+        // Fungsi untuk setup form submission
+        function setupFormSubmission() {
+            const form = document.getElementById('productForm');
+            
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const formData = {
+                    name: document.getElementById('productName').value,
+                    description: document.getElementById('productDescription').value,
+                    price: parseFloat(document.getElementById('productPrice').value),
+                    stock: parseInt(document.getElementById('productStock').value),
+                    category: document.getElementById('productCategory').value
+                };
+                
+                // Simulasi penyimpanan data
+                try {
+                    if (currentEditingId) {
+                        // Update existing product
+                        alert('Produk berhasil diupdate!');
+                    } else {
+                        // Add new product
+                        alert('Produk berhasil ditambahkan!');
+                    }
+                    
+                    document.getElementById('productModal').style.display = 'none';
+                    // Di aplikasi nyata, di sini akan reload data dari server
+                } catch (error) {
+                    console.error('Error saving product:', error);
+                    alert('Terjadi kesalahan saat menyimpan produk');
+                }
+            });
+        }
+
+        // Fungsi untuk edit produk
+        function editProduct(productId) {
+            // Simulasi data produk
+            const productData = {
+                '1': {
+                    name: 'Laptop Gaming RTX 4060',
+                    description: 'Laptop gaming dengan processor Intel i7 dan GPU RTX 4060',
+                    price: 15999000,
+                    stock: 12,
+                    category: 'Elektronik'
+                },
+                '2': {
+                    name: 'Smartphone Flagship 2024',
+                    description: 'Smartphone dengan kamera 200MP dan baterai 5000mAh',
+                    price: 8499000,
+                    stock: 25,
+                    category: 'Elektronik'
+                },
+                '3': {
+                    name: 'Headphone Wireless Premium',
+                    description: 'Headphone dengan noise cancellation dan battery life 30 jam',
+                    price: 2999000,
+                    stock: 18,
+                    category: 'Aksesoris'
+                }
+            };
+            
+            const product = productData[productId];
+            if (product) {
+                currentEditingId = productId;
+                document.getElementById('modalTitle').textContent = 'Edit Produk';
+                document.getElementById('productId').value = productId;
+                document.getElementById('productName').value = product.name;
+                document.getElementById('productDescription').value = product.description;
+                document.getElementById('productPrice').value = product.price;
+                document.getElementById('productStock').value = product.stock;
+                document.getElementById('productCategory').value = product.category;
+                
+                document.getElementById('productModal').style.display = 'block';
+            }
+        }
+
+        // Fungsi untuk menghapus produk
+        function deleteProduct(productId) {
+            if (confirm('Apakah Anda yakin ingin menghapus produk ini?')) {
+                alert('Produk berhasil dihapus!');
+                // Di aplikasi nyata, di sini akan hapus data dari server
+            }
+        }
+
+        // Fungsi untuk update status pesanan
+        function updateOrderStatus(orderId, status) {
+            alert(`Status pesanan ${orderId} diubah menjadi: ${status}`);
+            // Di aplikasi nyata, di sini akan update data di server
+        }
+
+        // Fungsi untuk update role pengguna
+        function updateUserRole(userId, role) {
+            alert(`Role pengguna ${userId} diubah menjadi: ${role}`);
+            // Di aplikasi nyata, di sini akan update data di server
+        }
+
+        // Fungsi untuk melihat detail pesanan
+        function viewOrderDetails(orderId) {
+            alert(`Fitur melihat detail pesanan untuk order ID: ${orderId}`);
+        }
+
+        // Fungsi untuk edit pengguna
+        function editUser(userId) {
+            alert(`Fitur edit pengguna untuk user ID: ${userId}`);
+        }
+    </script>
 </body>
 </html>

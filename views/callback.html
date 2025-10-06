@@ -3,31 +3,286 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Status Pembayaran</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <title>Toko Online - Status Pembayaran</title>
+    <style>
+        /* Reset dan Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header dan Navigation */
+        .navbar {
+            background-color: #1a365d;
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo h2 {
+            color: #ffffff;
+            font-size: 1.8rem;
+        }
+
+        .nav-logo span {
+            color: #63b3ed;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #63b3ed;
+        }
+
+        /* Callback Styles */
+        .callback-main {
+            padding: 4rem 0;
+            min-height: calc(100vh - 200px);
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+
+        .callback-container {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .callback-message {
+            background: white;
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .message-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .success .message-icon {
+            color: #48bb78;
+        }
+
+        .failed .message-icon {
+            color: #f56565;
+        }
+
+        .pending .message-icon {
+            color: #ed8936;
+        }
+
+        .callback-message h1 {
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+
+        .callback-message p {
+            color: #718096;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .order-details {
+            background: #f7fafc;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .order-details p {
+            margin-bottom: 0.5rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background-color: #4299e1;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #3182ce;
+        }
+
+        .btn-secondary {
+            background-color: #e2e8f0;
+            color: #4a5568;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background-color: #cbd5e0;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #1a365d;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: auto;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-menu {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .callback-message {
+                padding: 2rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="container" style="text-align: center; padding-top: 50px;">
-        <h1 id="status-title"></h1>
-        <p id="status-message"></p>
-        <a href="/" class="button">Kembali ke Beranda</a>
-    </div>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <h2>Toko<span>Online</span></h2>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="/" class="nav-link">Beranda</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="callback-main">
+        <div class="container">
+            <div class="callback-container">
+                <div id="successMessage" class="callback-message success">
+                    <div class="message-icon">✓</div>
+                    <h1>Pembayaran Berhasil!</h1>
+                    <p>Terima kasih telah berbelanja di toko kami. Pesanan Anda sedang diproses.</p>
+                    <div class="order-details">
+                        <p><strong>No. Pesanan:</strong> <span id="successOrderNumber">ORD-0012</span></p>
+                        <p><strong>Total Pembayaran:</strong> <span id="successTotal">Rp 11.498.000</span></p>
+                        <p><strong>Metode Pembayaran:</strong> Transfer Bank</p>
+                        <p><strong>Estimasi Pengiriman:</strong> 3-5 hari kerja</p>
+                    </div>
+                    <a href="/" class="btn-primary">Kembali ke Beranda</a>
+                </div>
+                
+                <div id="failedMessage" class="callback-message failed" style="display: none;">
+                    <div class="message-icon">✗</div>
+                    <h1>Pembayaran Gagal</h1>
+                    <p>Maaf, pembayaran Anda tidak dapat diproses. Silakan coba lagi.</p>
+                    <div class="action-buttons">
+                        <a href="/checkout" class="btn-primary">Coba Lagi</a>
+                        <a href="/" class="btn-secondary">Kembali ke Beranda</a>
+                    </div>
+                </div>
+                
+                <div id="pendingMessage" class="callback-message pending" style="display: none;">
+                    <div class="message-icon">⏳</div>
+                    <h1>Pembayaran Tertunda</h1>
+                    <p>Pembayaran Anda sedang menunggu konfirmasi. Kami akan mengirimkan notifikasi via email.</p>
+                    <a href="/" class="btn-primary">Kembali ke Beranda</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Toko Online. All rights reserved.</p>
+        </div>
+    </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const params = new URLSearchParams(window.location.search);
-            const status = params.get('status');
-            const transactionId = params.get('transaction_id');
-            const titleEl = document.getElementById('status-title');
-            const messageEl = document.getElementById('status-message');
-
+        // Simulasi status pembayaran berdasarkan parameter URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const status = urlParams.get('status') || 'success';
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const successMessage = document.getElementById('successMessage');
+            const failedMessage = document.getElementById('failedMessage');
+            const pendingMessage = document.getElementById('pendingMessage');
+            
+            // Sembunyikan semua pesan terlebih dahulu
+            successMessage.style.display = 'none';
+            failedMessage.style.display = 'none';
+            pendingMessage.style.display = 'none';
+            
+            // Tampilkan pesan berdasarkan status
             if (status === 'success') {
-                titleEl.textContent = 'Pembayaran Berhasil!';
-                messageEl.textContent = `Terima kasih atas pesanan Anda. ID Transaksi Anda adalah: ${transactionId}.`;
-                localStorage.removeItem('cart'); // Kosongkan keranjang setelah berhasil
-            } else {
-                titleEl.textContent = 'Pembayaran Gagal';
-                messageEl.textContent = 'Terjadi masalah dengan pembayaran Anda. Silakan coba lagi.';
+                successMessage.style.display = 'block';
+            } else if (status === 'failed') {
+                failedMessage.style.display = 'block';
+            } else if (status === 'pending') {
+                pendingMessage.style.display = 'block';
             }
         });
     </script>
